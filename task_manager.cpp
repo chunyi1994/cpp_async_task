@@ -7,7 +7,10 @@
 #include "event_task.h"
 
 namespace asynctask{
-TaskManager::TaskManager() : taskQueue_(), isStop_(false), taskSet_()
+TaskManager::TaskManager() :
+    isStop_(false),
+     taskQueue_(),
+    taskSet_()
 {
     std::thread t(&TaskManager::executeFunctions, this);
     t.detach();
@@ -15,10 +18,10 @@ TaskManager::TaskManager() : taskQueue_(), isStop_(false), taskSet_()
 
 TaskManager::~TaskManager()
 {
-    stop();
+    close();
 }
 
-void TaskManager::stop()
+void TaskManager::close()
 {
     isStop_ = true;
 }
