@@ -22,12 +22,10 @@ public:
 
     ~TaskManager();
 
-
     void close();  //stop是把一个线程安全的flag变量设置为true,并没有kill掉线程
                          //所以stop()了以后,不会立即关闭,而是等到while(!isStop)下一次循环线程会自动退出.
 
     void submit(const TaskPtr& task);
-    void registerEventTask(const std::shared_ptr<EventTask>& task);
     void deleteEventTask(const std::shared_ptr<const EventTask>& task);
 
 private:

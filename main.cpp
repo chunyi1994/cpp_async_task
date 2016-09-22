@@ -14,11 +14,11 @@ void example1()
     {
         //iotask不会马上销毁,因为manager持有1个他们的引用计数
         //iotask销毁的时机是在执行完finish任务以后
-        std::shared_ptr<EventTask> iotask = std::make_shared<IOTask>(&manager);
-        std::shared_ptr<EventTask> iotask2 = std::make_shared<IOTask2>(&manager);
+        TaskPtr iotask = std::make_shared<IOTask>(&manager);
+        TaskPtr iotask2 = std::make_shared<IOTask2>(&manager);
 
-        manager.registerEventTask(iotask);
-        manager.registerEventTask(iotask2);
+        manager.submit(iotask);
+        manager.submit(iotask2);
     }
     sleep(20);
 }
@@ -28,8 +28,8 @@ void example2()
     TaskManager manager;
     //EventTask是高级的Task,他可以向manager投递新的任务
     {
-        std::shared_ptr<EventTask> fileTask = std::make_shared<FileTask>(&manager);
-        manager.registerEventTask(fileTask);
+        TaskPtr fileTask = std::make_shared<FileTask>(&manager);
+        manager.submit(fileTask);
     }
 
     sleep(20);
@@ -47,7 +47,6 @@ void example3()
 
     sleep(20);
 }
-
 
 int main()
 {

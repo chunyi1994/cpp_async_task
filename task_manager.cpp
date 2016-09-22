@@ -28,15 +28,14 @@ void TaskManager::close()
 
 void TaskManager::submit(const TaskPtr& task)
 {
-    taskQueue_.push(task);
-}
+    //如果传递进来的是EventTask,则加入到set里
+    if(dynamic_cast<EventTask*>( task.get()))
+    {
+        std::shared_ptr<EventTask> eventTaskPtr = std::dynamic_pointer_cast<EventTask>(task);
+        taskSet_.insert(eventTaskPtr);
+    }
 
-void TaskManager::registerEventTask(const std::shared_ptr<EventTask>& task)
-{
-    taskSet_.insert(task);
-    //shared_ptr的向下转型
-    TaskPtr taskPtr = std::dynamic_pointer_cast<Task>(task);
-    submit(taskPtr);
+    taskQueue_.push(task);
 }
 
 void TaskManager::deleteEventTask(const std::shared_ptr<const EventTask>& task)
