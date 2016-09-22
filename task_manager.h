@@ -16,6 +16,7 @@ class EventTask;
 class TaskManager
 {
     typedef std::shared_ptr<Task> TaskPtr;
+    friend class EventTask;
 
 public:
     TaskManager();
@@ -26,10 +27,10 @@ public:
                          //所以stop()了以后,不会立即关闭,而是等到while(!isStop)下一次循环线程会自动退出.
 
     void submit(const TaskPtr& task);
-    void deleteEventTask(const std::shared_ptr<const EventTask>& task);
 
 private:
     void executeFunctions();
+    void deleteEventTask(const std::shared_ptr<const EventTask>& task);
 
     //nocopyable,我不认为这个类需要拷贝
     TaskManager(const TaskManager&) = delete;
